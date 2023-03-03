@@ -1,1 +1,4 @@
 /__pycache__
+emotibit_data/*.csv
+emotibit_data/*.json
+emotibit_data/LSL_recording_timestamps/*.xdf

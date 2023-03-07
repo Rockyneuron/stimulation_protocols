@@ -29,8 +29,9 @@ python stim_final3 -h
 Run the program and follow the instruction in the console.
 
 
-## De code is under development. Any contributions and suggestions
-refer to the Xscape proyect corresponding author: arturo-jose.valino@incipit.csic.es
+## De code is under development. Any contributions and suggestions are wellcome. To 
+commit a pull request refer to the Xscape proyect corresponding author: 
+arturo-jose.valino@incipit.csic.es
 
                                             Xscape Project (CSIC-INCIPIT) 02/03/2023
                                             

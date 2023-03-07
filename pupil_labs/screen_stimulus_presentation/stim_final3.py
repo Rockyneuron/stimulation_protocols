@@ -24,7 +24,7 @@ Outputs:
     randomised stimuly.
                                     Date: 2/02/2023
                                     Xscape proyect
-                                    Corresponding Author: Arturo Valiño                                
+                                    Corresponding Author: Arturo Valiño (arturo-jose.valino@incipit.csic.es)                            
 """
 
 import sys

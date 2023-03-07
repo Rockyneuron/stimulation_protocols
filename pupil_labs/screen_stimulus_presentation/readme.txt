@@ -30,7 +30,7 @@ Run the program and follow the instruction in the console.
 
 
 ## De code is under development. Any contributions and suggestions
-refer to the Xscape proyect.
+refer to the Xscape proyect corresponding author: arturo-jose.valino@incipit.csic.es
 
                                             Xscape Project (CSIC-INCIPIT) 02/03/2023
                                             

@@ -1,8 +1,8 @@
 Control01.jpg
-Control04.jpg
-Asset0037.tif
-Asset0036.tif
 Control02.jpg
-Asset0050.tif
+Asset0036.tif
+Asset0037.tif
 Control05.jpg
+Asset0050.tif
 Control03.jpg
+Control04.jpg

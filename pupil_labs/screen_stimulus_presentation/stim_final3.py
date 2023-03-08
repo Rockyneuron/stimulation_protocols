@@ -87,7 +87,7 @@ def main(display_size=(1024,768)):
 
 
     stimulus_duration=10    #in seconds
-    insterstimulus_duration=2
+    insterstimulus_duration=2    #in seconds
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
 

@@ -121,7 +121,7 @@ def main(display_size=(1024,768)):
     # Generate stimulus objects
     drift_point = visual.Circle(win=win,
                                     units="pix",
-                                    radius=50,
+                                    radius=30,
                                     fillColor=[-1] * 3,
                                     lineColor=[-1] * 3,
                                     edges=128
@@ -156,6 +156,12 @@ def main(display_size=(1024,768)):
             # Call to pupil API, check problem with display id
             request = {'subject': 'calibration.should_start', 'disp_id': 0} 
             response=p.notify(request)
+            sleep(2)
+            win.winHandle.minimize() 
+            win.winHandle.set_fullscreen(False)
+            win.winHandle.set_fullscreen(True)
+            win.winHandle.maximize()
+            win.flip()
         
             # Check if the calibration process was successfully started
             if response == 'Message forwarded.':
@@ -206,7 +212,7 @@ def main(display_size=(1024,768)):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-    
+        
         #Interstimulus
         for frame in range(INTERSTIMULUS_FRAMES):
             drift_point.draw()

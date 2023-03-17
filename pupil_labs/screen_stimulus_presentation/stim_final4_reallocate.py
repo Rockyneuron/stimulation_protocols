@@ -79,7 +79,7 @@ def main(display_size=(1024,768)):
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor
     MON_WIDTH = 50  # Width of your monitor in cm
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
-    MON_HZ=29.943 #Monitor frame rate in Hz 
+    MON_HZ=59.649 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
 
 
@@ -135,7 +135,12 @@ def main(display_size=(1024,768)):
 
     # Let everythng settle
     sleep(10.)
-    
+
+    # win.winHandle.minimize() # minimise the PsychoPy window
+    # win.winHandle.set_fullscreen(False) # disable fullscreen
+    # win.flip() # redraw the (minimised) window
+
+
     print('press enter to start calibration')
     cal=True
     cal_finish='ok'
@@ -146,7 +151,13 @@ def main(display_size=(1024,768)):
             # Call to pupil API, check problem with display id
             request = {'subject': 'calibration.should_start', 'disp_id': 0} 
             response=p.notify(request)
-        
+            sleep(2)
+            win.winHandle.minimize() 
+            win.winHandle.set_fullscreen(False)
+            win.winHandle.set_fullscreen(True)
+            win.winHandle.maximize()
+            win.flip()
+
             # Check if the calibration process was successfully started
             if response == 'Message forwarded.':
                 print('Calibration process started')
@@ -170,6 +181,11 @@ def main(display_size=(1024,768)):
                     print('Wrong Values') 
         else: 
             print('you have pressed another key. Press control+c tp skip program')
+    
+    # win.winHandle.maximize()    
+    # win.winHandle.set_fullscreen(True) 
+    # win.winHandle.activate()
+    # win.flip()
     
     start_input='start'
     stim=True

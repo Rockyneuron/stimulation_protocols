@@ -4,4 +4,5 @@ emotibit_data/*.json
 emotibit_data/LSL_recording_timestamps/06032023/expOO1/*.xdf
 emotibit_data/LSL_recording_timestamps/*.xdf
 /emotibit_data/LSL_recording_timestamps/06032023/exp001/
-
+/OBJECTS/
+/OBJECTS_not_used

@@ -58,7 +58,7 @@ def notify(pupil_remote, notification):
     pupil_remote.send(payload)
     return pupil_remote.recv_string()
 
-def getActualFrameRate(frames=1000):
+def getActualFrameRate(frames=1000,monitor=1):
     """
     Measures the actual framerate of your monitor. It's not always as clean as
     you'd think. Prints various useful information.
@@ -69,7 +69,8 @@ def getActualFrameRate(frames=1000):
     # Set stimuli up
     durations = []
     clock = core.Clock()
-    win = visual.Window(color='pink')
+    win = visual.Window(color='pink',
+    screen=monitor)
 
     # Show a brief instruction / warning
     visual.TextStim(win, text='Now wait and \ndon\'t do anything', color='black').draw()

@@ -81,7 +81,7 @@ def main(display_size=(1024,768)):
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor
     MON_WIDTH = 50  # Width of your monitor in cm
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
-    MON_HZ=29.943 #Monitor frame rate in Hz 
+    MON_HZ=59.649 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
     stimulus_duration=10    #in seconds
     insterstimulus_duration=2
@@ -201,6 +201,12 @@ def main(display_size=(1024,768)):
             raise ValueError("You have to input a string") 
 
     for im_number, image_stim in enumerate(image_stim_vec):
+        
+        #Interstimulus
+        for frame in range(INTERSTIMULUS_FRAMES):
+           drift_point.draw()
+           win.flip()
+            
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)
@@ -212,7 +218,7 @@ def main(display_size=(1024,768)):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-        
+
         #Interstimulus
         for frame in range(INTERSTIMULUS_FRAMES):
             drift_point.draw()

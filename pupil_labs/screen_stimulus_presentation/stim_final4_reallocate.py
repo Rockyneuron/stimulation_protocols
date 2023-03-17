@@ -201,6 +201,11 @@ def main(display_size=(1024,768)):
             raise ValueError("You have to input a string") 
 
     for im_number, image_stim in enumerate(image_stim_vec):
+        #Interstimulus
+        for frame in range(INTERSTIMULUS_FRAMES):
+            drift_point.draw()
+            win.flip()
+
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)

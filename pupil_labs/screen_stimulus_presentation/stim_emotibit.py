@@ -106,7 +106,7 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor=0,
+        monitor=None,
         color=(110,110,110),
         colorSpace='rgb255',
     )

@@ -101,7 +101,7 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor=0,
+        monitor=None,
         color=(110,110,110),
         colorSpace='rgb255',
     )
@@ -149,7 +149,7 @@ def main(display_size=(1024,768)):
 
             print('starting calibration')
             # Call to pupil API, check problem with display id
-            request = {'subject': 'calibration.should_start', 'disp_id': 0} 
+            request = {'subject': 'calibration.should_start', 'disp_id': 1} 
             response=p.notify(request)
             sleep(2)
             win.winHandle.minimize() 

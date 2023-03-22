@@ -106,7 +106,7 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor='LGMonitorXscape',
+        monitor=0,
         color=(110,110,110),
         colorSpace='rgb255',
     )
@@ -121,7 +121,7 @@ def main(display_size=(1024,768)):
     # Generate stimulus objects
     drift_point = visual.Circle(win=win,
                                     units="pix",
-                                    radius=30,
+                                    radius=15,
                                     fillColor=[-1] * 3,
                                     lineColor=[-1] * 3,
                                     edges=128

@@ -116,8 +116,11 @@ def main(display_size=(1024,768)):
 
     # Get list of images.
     images_list=os.listdir(Path('OBJECTS'))   
+
     # If we are on a windows sistem remove thumbs.db cache file
-    images_list.remove('Thumbs.db')
+    if 'Thumbs.db' in images_list:
+        images_list.remove('Thumbs.db')
+        
     random.shuffle(images_list)
     images=[Path('OBJECTS/' + im) for im in images_list]
 

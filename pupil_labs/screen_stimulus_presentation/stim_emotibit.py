@@ -85,6 +85,8 @@ def main(display_size=(1024,768)):
     FIX_HEIGHT = 100  # Text height of fixation cross
     stimulus_duration=10    #in seconds
     insterstimulus_duration=2
+    hello_window_duration=10
+    goodbye_window_duration=10
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
 
@@ -118,7 +120,9 @@ def main(display_size=(1024,768)):
     images_list.remove('Thumbs.db')
     random.shuffle(images_list)
     images=[Path('OBJECTS/' + im) for im in images_list]
-    
+
+    hello_image=visual.ImageStim(win,image='script_images/Bienvenida_1300.tiff')
+    goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')
     # Generate stimulus objects
     drift_point = visual.Circle(win=win,
                                     units="pix",
@@ -144,8 +148,10 @@ def main(display_size=(1024,768)):
               "name": "Annotation_Capture", 
               "args": {}})
 
-    # Let everythng settle
-    sleep(10.)
+    # Let everythng settle and say hello
+    for frame in range(round(hello_window_duration*MON_HZ)):
+        hello_image.draw()
+        win.flip()
     
     print('press enter to start calibration')
     cal=True
@@ -224,6 +230,14 @@ def main(display_size=(1024,768)):
         for frame in range(INTERSTIMULUS_FRAMES):
             drift_point.draw()
             win.flip()
+    
+    annotation = p.new_annotation('EndOfExperiment')
+    p.send_annotation(annotation)
+    outlet.push_sample(['EndOfExperiment'])
+
+    for frame in range(round(goodbye_window_duration*MON_HZ)):
+        goodbye_image.draw()
+        win.flip()
 
     # Close the window
     win.close()
@@ -246,6 +260,7 @@ def main(display_size=(1024,768)):
         asset_number,t_=asset.split('.')
         final_name=asset_number+'_'+stimulus_order.strip() + '.tif'
         previous_name.rename(target_dir / final_name)
+
     # Close PsychoPy
     core.quit()
 

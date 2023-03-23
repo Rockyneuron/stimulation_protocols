@@ -15,8 +15,7 @@ def check_capture_exists(ip_address, port):
         if not sock.connect_ex((ip_address, port)):
             print("Found Pupil Capture")
         else:
-            print("Cannot find Pupil Capture")
-            sys.exit()
+            raise ConnectionError("Cannot find Pupil Capture, please start pupil capture")
         
 def setup_pupil_remote_connection(ip_address, port):
     """Creates a zmq-REQ socket and connects it to Pupil Capture or Service

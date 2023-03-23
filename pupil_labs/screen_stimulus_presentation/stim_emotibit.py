@@ -94,6 +94,7 @@ def main(display_size=(1024,768)):
     outlet = StreamOutlet(info)  # Broadcast the stream.
 
     # Set up Pupil Core
+    cm.check_capture_exists(ip_address='127.0.0.1',port=50020)
     p = PupilCore()
     
     # ---------------------

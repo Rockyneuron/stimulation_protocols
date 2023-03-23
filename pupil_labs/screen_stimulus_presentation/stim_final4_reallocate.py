@@ -101,7 +101,7 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor=None,
+        monitor="LGMonitorXscape",
         color=(110,110,110),
         colorSpace='rgb255',
     )

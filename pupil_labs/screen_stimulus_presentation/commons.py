@@ -15,8 +15,7 @@ def check_capture_exists(ip_address, port):
         if not sock.connect_ex((ip_address, port)):
             print("Found Pupil Capture")
         else:
-            print("Cannot find Pupil Capture")
-            sys.exit()
+            raise ConnectionError("Cannot find Pupil Capture, please start pupil capture")
         
 def setup_pupil_remote_connection(ip_address, port):
     """Creates a zmq-REQ socket and connects it to Pupil Capture or Service
@@ -58,7 +57,7 @@ def notify(pupil_remote, notification):
     pupil_remote.send(payload)
     return pupil_remote.recv_string()
 
-def getActualFrameRate(frames=1000):
+def getActualFrameRate(frames=1000,monitor=1):
     """
     Measures the actual framerate of your monitor. It's not always as clean as
     you'd think. Prints various useful information.
@@ -69,7 +68,8 @@ def getActualFrameRate(frames=1000):
     # Set stimuli up
     durations = []
     clock = core.Clock()
-    win = visual.Window(color='pink')
+    win = visual.Window(color='pink',
+    screen=monitor)
 
     # Show a brief instruction / warning
     visual.TextStim(win, text='Now wait and \ndon\'t do anything', color='black').draw()
@@ -94,3 +94,26 @@ def getActualFrameRate(frames=1000):
     print('corresponding to a framerate of', round(1 / np.average(durations), 3), 'Hz')
     print('60 frames on your monitor takes', round(np.average(durations) * 60 * 1000, 3), 'ms')
     print('shortest duration was ', round(min(durations) * 1000, 3), 'ms and longest duration was ', round(max(durations) * 1000, 3), 'ms')
+
+
+def TicTocGenerator():
+    # Generator that returns time differences
+    ti = 0           # initial time
+    tf = time.time() # final time
+    while True:
+        ti = tf
+        tf = time.time()
+        yield tf-ti # returns the time difference
+
+TicToc = TicTocGenerator() # create an instance of the TicTocGen generator
+
+# This will be the main function through which we define both tic() and toc()
+def toc(tempBool=True):
+    # Prints the time difference yielded by generator instance TicToc
+    tempTimeInterval = next(TicToc)
+    if tempBool:
+        print( "Elapsed time: %f seconds.\n" %tempTimeInterval )
+
+def tic():
+    # Records a time in TicToc, marks the beginning of a time interval
+    toc(False)

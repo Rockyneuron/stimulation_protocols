@@ -79,7 +79,7 @@ def main(display_size=(1024,768)):
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor
     MON_WIDTH = 50  # Width of your monitor in cm
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
-    MON_HZ=29.943 #Monitor frame rate in Hz 
+    MON_HZ=59.649 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
 
 
@@ -101,7 +101,7 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor='LGMonitorXscape',
+        monitor="LGMonitorXscape",
         color=(110,110,110),
         colorSpace='rgb255',
     )
@@ -135,7 +135,12 @@ def main(display_size=(1024,768)):
 
     # Let everythng settle
     sleep(10.)
-    
+
+    # win.winHandle.minimize() # minimise the PsychoPy window
+    # win.winHandle.set_fullscreen(False) # disable fullscreen
+    # win.flip() # redraw the (minimised) window
+
+
     print('press enter to start calibration')
     cal=True
     cal_finish='ok'
@@ -144,9 +149,15 @@ def main(display_size=(1024,768)):
 
             print('starting calibration')
             # Call to pupil API, check problem with display id
-            request = {'subject': 'calibration.should_start', 'disp_id': 0} 
+            request = {'subject': 'calibration.should_start', 'disp_id': 1} 
             response=p.notify(request)
-        
+            sleep(2)
+            win.winHandle.minimize() 
+            win.winHandle.set_fullscreen(False)
+            win.winHandle.set_fullscreen(True)
+            win.winHandle.maximize()
+            win.flip()
+
             # Check if the calibration process was successfully started
             if response == 'Message forwarded.':
                 print('Calibration process started')
@@ -171,6 +182,11 @@ def main(display_size=(1024,768)):
         else: 
             print('you have pressed another key. Press control+c tp skip program')
     
+    # win.winHandle.maximize()    
+    # win.winHandle.set_fullscreen(True) 
+    # win.winHandle.activate()
+    # win.flip()
+    
     start_input='start'
     stim=True
     while stim:
@@ -185,6 +201,11 @@ def main(display_size=(1024,768)):
             raise ValueError("You have to input a string") 
 
     for im_number, image_stim in enumerate(image_stim_vec):
+        #Interstimulus
+        for frame in range(INTERSTIMULUS_FRAMES):
+            drift_point.draw()
+            win.flip()
+
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)

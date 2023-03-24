@@ -81,10 +81,12 @@ def main(display_size=(1024,768)):
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor
     MON_WIDTH = 50  # Width of your monitor in cm
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
-    MON_HZ=29.943 #Monitor frame rate in Hz 
+    MON_HZ=59.649 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
     stimulus_duration=10    #in seconds
     insterstimulus_duration=2
+    hello_window_duration=10
+    goodbye_window_duration=10
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
 
@@ -94,6 +96,7 @@ def main(display_size=(1024,768)):
     outlet = StreamOutlet(info)  # Broadcast the stream.
 
     # Set up Pupil Core
+    cm.check_capture_exists(ip_address='127.0.0.1',port=50020)
     p = PupilCore()
     
     # ---------------------
@@ -106,22 +109,27 @@ def main(display_size=(1024,768)):
         units="pix",
         allowGUI=True,
         fullscr=True,
-        monitor='LGMonitorXscape',
+        monitor=None,
         color=(110,110,110),
         colorSpace='rgb255',
     )
 
     # Get list of images.
     images_list=os.listdir(Path('OBJECTS'))   
+
     # If we are on a windows sistem remove thumbs.db cache file
-    images_list.remove('Thumbs.db')
+    if 'Thumbs.db' in images_list:
+        images_list.remove('Thumbs.db')
+        
     random.shuffle(images_list)
     images=[Path('OBJECTS/' + im) for im in images_list]
-    
+
+    hello_image=visual.ImageStim(win,image='script_images/Bienvenida_1300.tiff')
+    goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')
     # Generate stimulus objects
     drift_point = visual.Circle(win=win,
                                     units="pix",
-                                    radius=50,
+                                    radius=15,
                                     fillColor=[-1] * 3,
                                     lineColor=[-1] * 3,
                                     edges=128
@@ -143,8 +151,10 @@ def main(display_size=(1024,768)):
               "name": "Annotation_Capture", 
               "args": {}})
 
-    # Let everythng settle
-    sleep(10.)
+    # Let everythng settle and say hello
+    for frame in range(round(hello_window_duration*MON_HZ)):
+        hello_image.draw()
+        win.flip()
     
     print('press enter to start calibration')
     cal=True
@@ -156,6 +166,12 @@ def main(display_size=(1024,768)):
             # Call to pupil API, check problem with display id
             request = {'subject': 'calibration.should_start', 'disp_id': 0} 
             response=p.notify(request)
+            sleep(2)
+            win.winHandle.minimize() 
+            win.winHandle.set_fullscreen(False)
+            win.winHandle.set_fullscreen(True)
+            win.winHandle.maximize()
+            win.flip()
         
             # Check if the calibration process was successfully started
             if response == 'Message forwarded.':
@@ -195,6 +211,12 @@ def main(display_size=(1024,768)):
             raise ValueError("You have to input a string") 
 
     for im_number, image_stim in enumerate(image_stim_vec):
+        
+        #Interstimulus
+        for frame in range(INTERSTIMULUS_FRAMES):
+           drift_point.draw()
+           win.flip()
+            
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)
@@ -206,11 +228,19 @@ def main(display_size=(1024,768)):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-    
+
         #Interstimulus
         for frame in range(INTERSTIMULUS_FRAMES):
             drift_point.draw()
             win.flip()
+    
+    annotation = p.new_annotation('EndOfExperiment')
+    p.send_annotation(annotation)
+    outlet.push_sample(['EndOfExperiment'])
+
+    for frame in range(round(goodbye_window_duration*MON_HZ)):
+        goodbye_image.draw()
+        win.flip()
 
     # Close the window
     win.close()
@@ -233,6 +263,7 @@ def main(display_size=(1024,768)):
         asset_number,t_=asset.split('.')
         final_name=asset_number+'_'+stimulus_order.strip() + '.tif'
         previous_name.rename(target_dir / final_name)
+
     # Close PsychoPy
     core.quit()
 

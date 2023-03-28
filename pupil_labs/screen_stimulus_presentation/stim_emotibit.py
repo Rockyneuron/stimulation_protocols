@@ -105,7 +105,7 @@ def main(display_size=(1024,768)):
     clock = core.Clock()  
     win = visual.Window(
         size=MON_SIZE,
-        screen=1,
+        screen=0,
         units="pix",
         allowGUI=True,
         fullscr=True,
@@ -240,7 +240,7 @@ def main(display_size=(1024,768)):
     outlet.push_sample(['EndOfExperiment'])
 
     win.flip()
-        
+
     finish_input='f'
     final_test=True
     while final_test:

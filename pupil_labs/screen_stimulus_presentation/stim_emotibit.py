@@ -116,14 +116,26 @@ def main(display_size=(1024,768)):
 
     # Get list of images.
     images_list=os.listdir(Path('OBJECTS'))   
+    images_list=[im for im in images_list if '.tif' in im] 
 
     # If we are on a windows sistem remove thumbs.db cache file
     if 'Thumbs.db' in images_list:
         images_list.remove('Thumbs.db')
+
+    #list of pseudorandom images
+    images_psedorand=os.listdir(Path('OBJECTS/pseudorandom'))
+    images_psedorand=[im for im in images_psedorand if '.tif' in im]
+    with open(Path('OBJECTS/pseudorandom/order.txt'),'r') as file:
+        for line in file:
+            order_pseudorand=line.split(',')
         
     random.shuffle(images_list)
-    images=[Path('OBJECTS/' + im) for im in images_list]
+    random.shuffle(images_psedorand)
 
+    images=[Path('OBJECTS/' + im) for im in images_list]
+    [images.insert(int(order_pseudorand[loc]),im) for loc, im in enumerate(images_psedorand)]
+
+    print(images)
     hello_image=visual.ImageStim(win,image='script_images/Bienvenida_.tiff')
     goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')
     # Generate stimulus objects
@@ -136,7 +148,7 @@ def main(display_size=(1024,768)):
                                     )
     # Reallocate all stimuly in an initial list to optimize stimulation.
     image_stim_vec=[visual.ImageStim(win, image=im) for im in images]
-
+    
     markers = {
         'event': images,
         'test': ['test_event']

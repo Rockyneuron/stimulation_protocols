@@ -212,30 +212,35 @@ def main(display_size=(1024,768)):
 
     for im_number, image_stim in enumerate(image_stim_vec):
         
+        cm.tic()
         #Interstimulus
         for frame in range(INTERSTIMULUS_FRAMES):
            drift_point.draw()
            win.flip()
-            
+        print('time of first circle:')
+        cm.toc()
+                    
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)
         p.send_annotation(annotation)
         outlet.push_sample([markers['event'][im_number].name])
-
+        
+        cm.tic()
         #Stimulus
         for frame in range(STIMULUS_FRAMES-1):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-    
+        print('time of stimulus')
+        cm.toc()
+
     annotation = p.new_annotation('EndOfExperiment')
     p.send_annotation(annotation)
     outlet.push_sample(['EndOfExperiment'])
 
     win.flip()
-    print('sleeping')    
-    
+        
     finish_input='f'
     final_test=True
     while final_test:

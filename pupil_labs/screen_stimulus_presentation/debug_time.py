@@ -207,7 +207,7 @@ def main(display_size=(1024,768)):
         for frame in range(INTERSTIMULUS_FRAMES):
             drift_point.draw()
             win.flip()
-        print('time of first circle:')
+        print('time of interstimulus:')
         cm.toc()
 
         image_stim.draw()

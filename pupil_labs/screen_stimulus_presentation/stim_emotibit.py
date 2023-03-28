@@ -228,11 +228,6 @@ def main(display_size=(1024,768)):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-
-        #Interstimulus
-        for frame in range(INTERSTIMULUS_FRAMES):
-            drift_point.draw()
-            win.flip()
     
     annotation = p.new_annotation('EndOfExperiment')
     p.send_annotation(annotation)

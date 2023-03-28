@@ -83,7 +83,7 @@ def main(display_size=(1024,768)):
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
     MON_HZ=59.649 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
-    stimulus_duration=10    #in seconds
+    stimulus_duration=5    #in seconds
     insterstimulus_duration=2
     hello_window_duration=10
     goodbye_window_duration=10
@@ -124,7 +124,7 @@ def main(display_size=(1024,768)):
     random.shuffle(images_list)
     images=[Path('OBJECTS/' + im) for im in images_list]
 
-    hello_image=visual.ImageStim(win,image='script_images/Bienvenida_1300.tiff')
+    hello_image=visual.ImageStim(win,image='script_images/Bienvenida_.tiff')
     goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')
     # Generate stimulus objects
     drift_point = visual.Circle(win=win,
@@ -156,7 +156,7 @@ def main(display_size=(1024,768)):
         hello_image.draw()
         win.flip()
     
-    print('press enter to start calibration')
+    print('Press "Enter" to start the calibration')
     cal=True
     cal_finish='ok'
     while cal:
@@ -182,7 +182,7 @@ def main(display_size=(1024,768)):
             #restart calibration if necesary
             while True:
                 try:
-                    user_input=input('is calibration ok? type "ok" to continue or "repeat" to restart: \n')  
+                    user_input=input('Is the calibration ok? type "ok" to continue or "repeat" to restart: \n')  
                     if user_input==cal_finish:
                         print('Calibration finished')
                         cal=False
@@ -195,14 +195,14 @@ def main(display_size=(1024,768)):
                 except ValueError:
                     print('Wrong Values') 
         else: 
-            print('you have pressed another key. Press control+c tp skip program')
+            print('You have pressed another key. Press control+c to skip program')
     
     start_input='start'
     stim=True
     while stim:
-        user_input=input('type "start" to begin stimulation: \n')
+        user_input=input('Type "start" to begin stimulation: \n')
         if start_input==user_input:
-            print('starting stimulation...')
+            print('Starting stimulation...')
             sleep(2)
             stim=False
         elif start_input!=user_input:
@@ -237,6 +237,21 @@ def main(display_size=(1024,768)):
     annotation = p.new_annotation('EndOfExperiment')
     p.send_annotation(annotation)
     outlet.push_sample(['EndOfExperiment'])
+
+    win.flip()
+    print('sleeping')    
+    
+    finish_input='f'
+    final_test=True
+    while final_test:
+        user_input=input('Do a Test before you end. Type "f" to finish the experiment": \n')
+        if finish_input==user_input:
+            print('Ending experiment...')
+            final_test=False
+        elif finish_input!=user_input:
+            print('Wrong input. Press control+c to skip program')
+        else:
+            raise ValueError("You have to input a string")   
 
     for frame in range(round(goodbye_window_duration*MON_HZ)):
         goodbye_image.draw()

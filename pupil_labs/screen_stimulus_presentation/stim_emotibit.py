@@ -125,17 +125,22 @@ def main(display_size=(1024,768)):
     #list of pseudorandom images
     images_psedorand=os.listdir(Path('OBJECTS/pseudorandom'))
     images_psedorand=[im for im in images_psedorand if '.tif' in im]
+
     with open(Path('OBJECTS/pseudorandom/order.txt'),'r') as file:
         for line in file:
-            order_pseudorand=line.split(',')
-        
+            order=line.split(',')
+    order_pseudorand=list(map(int,order)) 
+
     random.shuffle(images_list)
     random.shuffle(images_psedorand)
 
     images=[Path('OBJECTS/' + im) for im in images_list]
-    [images.insert(int(order_pseudorand[loc]),im) for loc, im in enumerate(images_psedorand)]
+    images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]
 
-    print(images)
+    for loc, im in enumerate(images_psedorand_dir):
+        images.insert(order_pseudorand[loc],im)
+        images_list.insert(order_pseudorand[loc],images_psedorand[loc])
+    
     hello_image=visual.ImageStim(win,image='script_images/Bienvenida_.tiff')
     goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')
     # Generate stimulus objects

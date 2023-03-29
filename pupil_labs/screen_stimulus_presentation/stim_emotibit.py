@@ -184,12 +184,13 @@ def main(display_size=(1024,768)):
             # Call to pupil API, check problem with display id
             request = {'subject': 'calibration.should_start', 'disp_id': 0} 
             response=p.notify(request)
-            sleep(2)
-            win.winHandle.minimize() 
-            win.winHandle.set_fullscreen(False)
-            win.winHandle.set_fullscreen(True)
-            win.winHandle.maximize()
             win.flip()
+            # sleep(2)
+            # win.winHandle.minimize() 
+            # win.winHandle.set_fullscreen(False)
+            # win.winHandle.set_fullscreen(True)
+            # win.winHandle.maximize()
+            # win.flip()
         
             # Check if the calibration process was successfully started
             if response == 'Message forwarded.':

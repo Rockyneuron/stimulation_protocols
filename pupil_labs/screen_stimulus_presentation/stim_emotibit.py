@@ -82,9 +82,9 @@ def main(display_size=(1024,768)):
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor
     MON_WIDTH = 50  # Width of your monitor in cm
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
-    MON_HZ=59.649 #Monitor frame rate in Hz 
+    MON_HZ=60.01 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
-    stimulus_duration=5    #in seconds
+    stimulus_duration=6    #in seconds
     insterstimulus_duration=2
     hello_window_duration=10
     goodbye_window_duration=10
@@ -234,9 +234,15 @@ def main(display_size=(1024,768)):
         cm.tic()
         #Interstimulus
         for frame in range(INTERSTIMULUS_FRAMES):
+           win.flip()
+        print('interstimulus time blank:')  
+        cm.toc()
+
+        cm.tic()
+        for frame in range(INTERSTIMULUS_FRAMES):
            drift_point.draw()
            win.flip()
-        print('interstimulus time:')
+        print('interstimulus time drift correction:')
         cm.toc()
                     
         image_stim.draw()

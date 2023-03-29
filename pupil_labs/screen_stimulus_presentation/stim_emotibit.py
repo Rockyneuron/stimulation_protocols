@@ -137,9 +137,9 @@ def main(display_size=(1024,768)):
     images=[Path('OBJECTS/' + im) for im in images_list]
     images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]
 
-    for loc, im in enumerate(images_psedorand_dir):
-        images.insert(order_pseudorand[loc],im)
-        images_list.insert(order_pseudorand[loc],images_psedorand[loc])
+    for loc, im_dir, im in zip(order_pseudorand,images_psedorand_dir,images_psedorand):
+        images.insert(loc,im_dir)
+        images_list.insert(loc,im)
     
     hello_image=visual.ImageStim(win,image='script_images/Bienvenida_.tiff')
     goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')

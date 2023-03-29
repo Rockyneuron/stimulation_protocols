@@ -74,11 +74,9 @@ def main(display_size=(1024,768)):
     target_dir = Path(args.path)
 
     if not target_dir.exists():
-        print("The target directory doesn't exist")
-        raise SystemExit(1)
+        raise SystemError("The target directory doesn't exist")
     if len(os.listdir(Path(target_dir)))>0:
-        print('Target directory for saved images is not empty')
-        raise SystemExit(1)
+        raise SystemError('Target directory for saved images is not empty')
     
     #Experiment parameters
     MON_DISTANCE = 60  # Distance between subject's eyes and monitor

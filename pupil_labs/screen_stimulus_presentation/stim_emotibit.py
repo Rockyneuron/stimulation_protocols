@@ -235,7 +235,7 @@ def main(display_size=(1024,768)):
         for frame in range(INTERSTIMULUS_FRAMES):
            drift_point.draw()
            win.flip()
-        print('Interstimulus time:')
+        print('interstimulus time:')
         cm.toc()
                     
         image_stim.draw()
@@ -250,7 +250,7 @@ def main(display_size=(1024,768)):
             image_stim.draw()
             win.flip()
         win.getMovieFrame()        
-        print('time of stimulus')
+        print('stimulus time:')
         cm.toc()
 
     annotation = p.new_annotation('EndOfExperiment')

@@ -232,26 +232,38 @@ def main(display_size=(1024,768)):
     for im_number, image_stim in enumerate(image_stim_vec):
         
         cm.tic()
+        win.flip()
+        annotation=p.new_annotation('blank_{}'.format(im_number))
+        p.send_annotation(annotation)
+        outlet.push_sample(['blank_{}'.format(im_number)])
+
         #Interstimulus
-        for frame in range(INTERSTIMULUS_FRAMES):
+        for frame in range(INTERSTIMULUS_FRAMES-1):
            win.flip()
         print('interstimulus time blank:')  
         cm.toc()
 
         cm.tic()
-        for frame in range(INTERSTIMULUS_FRAMES):
+        drift_point.draw()
+        win.flip()
+        annotation=p.new_annotation('drift_point_{}'.format(im_number))
+        p.send_annotation(annotation)
+        outlet.push_sample(['drift_point_{}'.format(im_number)])
+
+
+        for frame in range(INTERSTIMULUS_FRAMES-1):
            drift_point.draw()
            win.flip()
         print('interstimulus time drift correction:')
         cm.toc()
                     
+        cm.tic()
         image_stim.draw()
         win.flip()
         annotation = p.new_annotation(images[im_number].name)
         p.send_annotation(annotation)
         outlet.push_sample([markers['event'][im_number].name])
-        
-        cm.tic()
+      
         #Stimulus
         for frame in range(STIMULUS_FRAMES-1):
             image_stim.draw()

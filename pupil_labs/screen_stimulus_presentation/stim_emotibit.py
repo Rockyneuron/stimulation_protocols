@@ -148,8 +148,8 @@ def main(display_size=(1024,768)):
     drift_point = visual.Circle(win=win,
                                     units="pix",
                                     radius=15,
-                                    fillColor=[-1] * 3,
-                                    lineColor=[-1] * 3,
+                                    fillColor=[-1]*3,
+                                    lineColor=[-1]*3,
                                     edges=128
                                     )
     # Reallocate all stimuly in an initial list to optimize stimulation.

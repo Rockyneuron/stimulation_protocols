@@ -14,7 +14,7 @@ from pylsl import StreamInfo, StreamOutlet
 
 def main():
     #Experiment parameters
-    stimulus_duration=6    #in seconds
+    stimulus_duration=1    #in seconds
 
     #Add arguments to indicate where stimulation images will be saved.
     parser=argparse.ArgumentParser(

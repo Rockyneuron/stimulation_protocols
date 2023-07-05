@@ -110,6 +110,10 @@ def main():
             else: 
                 print('You have pressed another key. Press control+c to skip program')
     outlet.push_sample(['end_of_experiment'])    
+    
+    # Stop recording
+    p.command('r')
+    
     # Save assets order of appearance
     print('Saving assets order list...')
     cm.save_list_to_txt(assets,target_dir.joinpath('assets.txt'))

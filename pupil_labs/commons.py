@@ -7,12 +7,14 @@ import msgpack as serializer
 import time
 import socket
 import sys
+from pathlib import Path
 
-def save_list_to_txt(my_list,list_path):
+def save_list_to_txt(my_list:list,list_path:Path):
     """Function to save list to a .txt
-        Args:
-        my_list (_type_): list to save as .txt
-        list_path (_type_): fullpath where to save list </.../.../.txt>
+
+    Args:
+        my_list (list): _description_
+        list_path (Path): _description_
     """
     try:
         with open(list_path, mode='x') as f:
@@ -23,7 +25,7 @@ def save_list_to_txt(my_list,list_path):
             for item in my_list:
                 f.write(str(item) + '\n')
     else:
-        print('Experiment images saved')          
+        print('list saved')              
         
 def check_capture_exists(ip_address, port):
     """check pupil capture instance exists"""

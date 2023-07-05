@@ -185,6 +185,7 @@ def main(display_size=(1024,768)):
             request = {'subject': 'calibration.should_start', 'disp_id': 0} 
             response=p.notify(request)
             win.flip()
+            ### uncomment if calubration screen doesnt appear
             # sleep(2)
             # win.winHandle.minimize() 
             # win.winHandle.set_fullscreen(False)

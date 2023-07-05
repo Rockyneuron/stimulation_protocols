@@ -12,7 +12,10 @@ To install the environment just execute:
 conda env create -f stimulation_env.yaml
 
 Once with the environment installed drop the fotos in .tif format you want
-for the screen stimulation in OBJECTS.
+for the screen stimulation in OBJECTS. The stimuly from OBJECTS will be randomized,
+and the files in OBJECTS/PSEUDORANDOM will be presented in a fixed place but radonmized order
+as determined by the order.txt. Where the order is determined by a sequence of numbers seperated by ','.
+(0,2,4,5)----order is pythonic where 0 is the first order of appearance.
 
 Dependeding on the computer it may be necesarry to configure the stimulation monitor
 as the main screen of the compute, to show the calibration in the stimulation monitor.

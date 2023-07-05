@@ -1,4 +1,4 @@
-name: eye_stimulation
+name: eye_stimulation_4
 channels:
   - conda-forge
   - defaults

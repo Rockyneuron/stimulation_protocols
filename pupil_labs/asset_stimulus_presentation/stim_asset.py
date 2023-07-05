@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 import sys
 sys.path.append('../')
 import os
@@ -21,7 +11,6 @@ import argparse
 import logging
 from pyplr.pupil import PupilCore
 from pylsl import StreamInfo, StreamOutlet
-
 
 def main():
     #Experiment parameters
@@ -105,7 +94,7 @@ def main():
 
                 cm.tic()
                 #Send annotations to LSL and pupil core
-                print('Recording asset data..')
+                print(f'Recording asset data: {asset}..')
                 annotation = p.new_annotation(asset)
                 p.send_annotation(annotation)
                 outlet.push_sample([asset])
@@ -117,24 +106,13 @@ def main():
 
                 print('stimulus time:')
                 cm.toc() 
-                
-                while True:
-                    try:
-                        user_input=input('Is the calibration ok? type "ok" to continue or "repeat" to restart: \n')  
-                        if user_input==cal_finish:
-                            print('Calibration finished')
-                            cal=False
-                            break
-                        elif user_input=='repeat':
-                            break
-                        else:
-                            print('unrecognised input. type "ok" to continue or "repeat" to restart: \n')
-                            continue
-                    except ValueError:
-                        print('Wrong Values') 
+                break
             else: 
                 print('You have pressed another key. Press control+c to skip program')
-
+    outlet.push_sample(['end_of_experiment'])    
+    # Save assets order of appearance
+    print('Saving assets order list...')
+    cm.save_list_to_txt(assets,target_dir.joinpath('assets.txt'))
 
 if __name__ == '__main__':
     try:

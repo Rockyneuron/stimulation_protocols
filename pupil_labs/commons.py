@@ -8,7 +8,23 @@ import time
 import socket
 import sys
 
-
+def save_list_to_txt(my_list,list_path):
+    """Function to save list to a .txt
+        Args:
+        my_list (_type_): list to save as .txt
+        list_path (_type_): fullpath where to save list </.../.../.txt>
+    """
+    try:
+        with open(list_path, mode='x') as f:
+            for item in my_list:
+                f.write(str(item) + '\n')
+    except FileExistsError:
+        with open(list_path, mode='w') as f:
+            for item in my_list:
+                f.write(str(item) + '\n')
+    else:
+        print('Experiment images saved')          
+        
 def check_capture_exists(ip_address, port):
     """check pupil capture instance exists"""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:

@@ -26,6 +26,7 @@ Outputs:
 """
 
 import sys
+sys.path.append('../')
 import os
 import keyboard
 from time import sleep

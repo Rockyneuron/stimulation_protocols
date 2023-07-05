@@ -17,11 +17,9 @@ and the files in OBJECTS/PSEUDORANDOM will be presented in a fixed place but rad
 as determined by the order.txt. Where the order is determined by a sequence of numbers seperated by ','.
 (0,2,4,5)----order is pythonic where 0 is the first order of appearance.
 
-It might be necesary to play with the parameter screen=(0,1) and to change the main screen in wondows configurations
-depending on the computer set up.
-
-Dependeding on the computer it may be necesarry to configure the stimulation monitor
-as the main screen of the compute, to show the calibration in the stimulation monitor.
+It might be necesary to play with the parameter screen=(0,1) and to change the main screen in iondows configurations
+depending on the computer set up. Dependeding on the computer it may be necesarry to configure the stimulation monitor
+as the main screen of the computer, to show the calibration in the stimulation monitor.
 
 With pupil capture executed type
 python stim_final3.py <dir>

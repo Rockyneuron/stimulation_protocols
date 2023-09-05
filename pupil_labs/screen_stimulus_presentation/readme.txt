@@ -9,7 +9,7 @@ was presented.
 
 To install the environment just execute:
 
-conda env create -f stimulation_env.yaml
+conda env create -f pupil_labs.yml
 
 Once with the environment installed drop the fotos in .tif format you want
 for the screen stimulation in OBJECTS. The stimuly from OBJECTS will be randomized,
@@ -30,7 +30,7 @@ Each .tif will be saved with the following format <image_name>_<order_of_appeara
 
 For help type
 
-python stim_final3 -h
+python stim_emotibit.py -h
 
 Run the program and follow the instruction in the console.
 

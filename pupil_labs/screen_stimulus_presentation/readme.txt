@@ -22,7 +22,7 @@ depending on the computer set up. Dependeding on the computer it may be necesarr
 as the main screen of the computer, to show the calibration in the stimulation monitor.
 
 With pupil capture executed type
-python stim_final3.py <dir>
+python stim_emotibit.py <dir>
 
 Where dir is the directory to save the stimulation images and a .txt with the order of appearance.
 Each .tif will be saved with the following format <image_name>_<order_of_appearance(int)>.tif 

@@ -21,7 +21,7 @@ Where dir is the directory to save  a .txt with the order of appearance of the a
 
 For help type
 
-python stim_final3 -h
+python stim_asset.py -h
 
 Run the program and follow the instruction in the console.
 

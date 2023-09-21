@@ -17,9 +17,7 @@ conda env create -f pupil_labs.yml
 With pupil capture executed type
 python stim_asset.py <dir>
 
-Where dir is the directory to save the stimulation images and a .txt with the order of appearance.
-Each .tif will be saved with the following format <image_name>_<order_of_appearance(int)>.tif 
-
+Where dir is the directory to save  a .txt with the order of appearance of the assets.
 
 For help type
 

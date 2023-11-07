@@ -98,32 +98,42 @@ def main():
         colorSpace='rgb255',
     )
 
-    # Get list of images.
+    # Get list of randomized images.
     images_list=os.listdir(Path('OBJECTS'))   
     images_list=[im for im in images_list if '.tif' in im] 
+
 
     # If we are on a windows sistem remove thumbs.db cache file
     if 'Thumbs.db' in images_list:
         images_list.remove('Thumbs.db')
 
-    #list of pseudorandom images
-    images_psedorand=os.listdir(Path('OBJECTS/pseudorandom'))
-    images_psedorand=[im for im in images_psedorand if '.tif' in im]
+    #Get list of pseudorandom images
+    try:
+        images_psedorand=os.listdir(Path('OBJECTS/pseudorandom'))
+    except FileNotFoundError:
+        print('There is no pseudorandom folder, experiment without surprise')
+        random.shuffle(images_list)
+        images=[Path('OBJECTS/' + im) for im in images_list]
+    else:
+        images_psedorand=[im for im in images_psedorand if '.tif' in im]
+        print('Experiment with pseudorandom images')
 
-    with open(Path('OBJECTS/pseudorandom/order.txt'),'r') as file:
-        for line in file:
-            order=line.split(',')
-    order_pseudorand=list(map(int,order)) 
+        with open(Path('OBJECTS/pseudorandom/order.txt'),'r') as file:
+            for line in file:
+                order=line.split(',')
+        order_pseudorand=list(map(int,order)) 
 
-    random.shuffle(images_list)
-    random.shuffle(images_psedorand)
+        random.shuffle(images_psedorand)
 
-    images=[Path('OBJECTS/' + im) for im in images_list]
-    images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]
+        images=[Path('OBJECTS/' + im) for im in images_list]
+        images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]
 
-    for loc, im_dir, im in zip(order_pseudorand,images_psedorand_dir,images_psedorand):
-        images.insert(loc,im_dir)
-        images_list.insert(loc,im)
+        # Insert pseudorandom images in the order stablished
+        for loc, im_dir, im in zip(order_pseudorand,images_psedorand_dir,images_psedorand):
+            images.insert(loc,im_dir)
+            images_list.insert(loc,im)
+    finally:
+        pass
     
     hello_image=visual.ImageStim(win,image='script_images/Bienvenida_.tiff')
     goodbye_image=visual.ImageStim(win,image='script_images/Final_.tiff')

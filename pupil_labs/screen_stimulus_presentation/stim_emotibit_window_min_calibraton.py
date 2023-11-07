@@ -157,9 +157,10 @@ def main():
         hello_image.draw()
         win.flip()
 
+    # minimize the PsychoPy window
     win.winHandle.minimize() 
-    win.winHandle.maximize()
-    # win.flip()
+    win.winHandle.set_fullscreen(False)
+
 
     print('Press "Enter" to start the calibration')
     cal=True
@@ -203,7 +204,12 @@ def main():
         else: 
             print('You have pressed another key. Press control+c to skip program')
 
-
+    # maximize the PsychoPy window
+    win.winHandle.set_fullscreen(True)
+    win.winHandle.maximize()
+    win.flip()
+    win.flip()
+    
     start_input='start'
     stim=True
     while stim:

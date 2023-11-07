@@ -83,6 +83,53 @@ def main():
     cm.check_capture_exists(ip_address='127.0.0.1',port=50020)
     p = PupilCore()
     
+    # Start recording
+    p.command('R')
+    
+    print('Press "Enter" to start the calibration')
+    cal=True
+    cal_finish='ok'
+    while cal:
+        if keyboard.read_key()=='enter':
+
+            print('starting calibration')
+            # Call to pupil API, check problem with display id
+            request = {'subject': 'calibration.should_start', 'disp_id': 0} 
+            response=p.notify(request)
+            ### uncomment if calubration screen doesnt appear
+            # sleep(2)
+            # win.winHandle.minimize() 
+            # win.winHandle.set_fullscreen(False)
+            # win.winHandle.set_fullscreen(True)
+            # win.winHandle.maximize()
+            # win.flip()
+        
+            # Check if the calibration process was successfully started
+            if response == 'Message forwarded.':
+                print('Calibration process started')
+            else:
+                raise ConnectionError
+
+            #restart calibration if necesary
+            while True:
+                try:
+                    user_input=input('Is the calibration ok? type "ok" to continue or "repeat" to restart: \n')  
+                    if user_input==cal_finish:
+                        print('Calibration finished')
+                        cal=False
+                        break
+                    elif user_input=='repeat':
+                        break
+                    else:
+                        print('unrecognised input. type "ok" to continue or "repeat" to restart: \n')
+                        continue
+                except ValueError:
+                    print('Wrong Values') 
+        else: 
+            print('You have pressed another key. Press control+c to skip program')    
+
+
+
     # ---------------------
     # Setup window
     # ---------------------
@@ -142,9 +189,6 @@ def main():
         'event': images,
         'test': ['test_event']
     }
-
-    # Start recording
-    p.command('R')
   
     # Prepare and send annotations
     # Start the annotations plugin
@@ -156,49 +200,6 @@ def main():
     for frame in range(round(hello_window_duration*MON_HZ)):
         hello_image.draw()
         win.flip()
-    
-    print('Press "Enter" to start the calibration')
-    cal=True
-    cal_finish='ok'
-    while cal:
-        if keyboard.read_key()=='enter':
-
-            print('starting calibration')
-            # Call to pupil API, check problem with display id
-            request = {'subject': 'calibration.should_start', 'disp_id': 0} 
-            response=p.notify(request)
-            win.flip()
-            ### uncomment if calubration screen doesnt appear
-            # sleep(2)
-            # win.winHandle.minimize() 
-            # win.winHandle.set_fullscreen(False)
-            # win.winHandle.set_fullscreen(True)
-            # win.winHandle.maximize()
-            # win.flip()
-        
-            # Check if the calibration process was successfully started
-            if response == 'Message forwarded.':
-                print('Calibration process started')
-            else:
-                raise ConnectionError
-
-            #restart calibration if necesary
-            while True:
-                try:
-                    user_input=input('Is the calibration ok? type "ok" to continue or "repeat" to restart: \n')  
-                    if user_input==cal_finish:
-                        print('Calibration finished')
-                        cal=False
-                        break
-                    elif user_input=='repeat':
-                        break
-                    else:
-                        print('unrecognised input. type "ok" to continue or "repeat" to restart: \n')
-                        continue
-                except ValueError:
-                    print('Wrong Values') 
-        else: 
-            print('You have pressed another key. Press control+c to skip program')
     
     start_input='start'
     stim=True

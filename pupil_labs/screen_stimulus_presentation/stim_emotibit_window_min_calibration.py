@@ -123,6 +123,7 @@ def main():
         order_pseudorand=list(map(int,order)) 
 
         random.shuffle(images_psedorand)
+        random.shuffle(images_list)
 
         images=[Path('OBJECTS/' + im) for im in images_list]
         images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]

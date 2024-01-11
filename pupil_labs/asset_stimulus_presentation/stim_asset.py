@@ -14,7 +14,7 @@ from pylsl import StreamInfo, StreamOutlet
 
 def main():
     #Experiment parameters
-    stimulus_duration=1    #in seconds
+    stimulus_duration=10    #in seconds
 
     #Add arguments to indicate where stimulation images will be saved.
     parser=argparse.ArgumentParser(
@@ -72,7 +72,7 @@ def main():
     start_input='start'
     stim=True
     while stim:
-        user_input=input('Type "start" to begin experiment: \n')
+        user_input=input('Type "start" to begin experiment, calibrate manually: \n')
         if start_input==user_input:
             print('Starting stimulation...')
             sleep(2)
@@ -111,6 +111,17 @@ def main():
                 print('You have pressed another key. Press control+c to skip program')
     outlet.push_sample(['end_of_experiment'])    
     
+    finish_input='f'
+    final_test=True
+    while final_test:
+        user_input=input('Do a Test before you end. Type "f" to finish the experiment": \n')
+        if finish_input==user_input:
+            print('Ending experiment...')
+            final_test=False
+        elif finish_input!=user_input:
+            print('Wrong input. Press control+c to skip program')
+        else:
+            raise ValueError("You have to input a string")   
     # Stop recording
     p.command('r')
     

@@ -136,7 +136,7 @@ def main():
     clock = core.Clock()  
     win = visual.Window(
         size=MON_SIZE,
-        screen=0,
+        screen=1,
         units="pix",
         allowGUI=True,
         fullscr=True,

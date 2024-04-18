@@ -71,13 +71,17 @@ def main():
     insterstimulus_duration=1
     hello_window_duration=10
     goodbye_window_duration=10
+    INITIAL_BASELINE=180
+    FINAL_BASELINE=180
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
     randomize_image=False   # True or false to randomize images in objets folder
+    DRIFT_CORRECTION=True
+    INTERSTIMULUS=False
 
     # Set up LabStreamingLayer stream.
     info = StreamInfo(name='DataSyncMarker', type='Tags', channel_count=1,
-                      channel_format='string', source_id='12345')
+                      channel_format='string', source_id='12345') 
     outlet = StreamOutlet(info)  # Broadcast the stream.
 
     # Set up Pupil Core
@@ -219,8 +223,11 @@ def main():
     while stim:
         user_input=input('Type "start" to begin stimulation: \n')
         if start_input==user_input:
-            print('Starting stimulation...')
-            sleep(2)
+            cm.tic()
+            print('Starting stimulation...\n initial baseline: ')
+            sleep(INITIAL_BASELINE)
+            print(f'baseline_time:')
+            cm.toc()
             stim=False
         elif start_input!=user_input:
             print('Wrong input. Press control+c to skip program')
@@ -236,31 +243,32 @@ def main():
         outlet.push_sample(['blank_{}'.format(im_number)])
 
         #Interstimulus
-        for frame in range(INTERSTIMULUS_FRAMES-1):
-           win.flip()
-        print('interstimulus time blank:')  
-        cm.toc()
+        if INTERSTIMULUS:
+            for frame in range(INTERSTIMULUS_FRAMES-1):
+                win.flip()
+            print('interstimulus time blank:')  
+            cm.toc()
 
-        cm.tic()
-        drift_point.draw()
-        win.flip()
-        annotation=p.new_annotation('drift_point_{}'.format(im_number))
-        p.send_annotation(annotation)
-        outlet.push_sample(['drift_point_{}'.format(im_number)])
+            cm.tic()
+            drift_point.draw()
+            win.flip()
+            annotation=p.new_annotation('drift_point_{}'.format(im_number))
+            p.send_annotation(annotation)
+            outlet.push_sample(['drift_point_{}'.format(im_number)])
 
-
-        for frame in range(INTERSTIMULUS_FRAMES-1):
-           drift_point.draw()
-           win.flip()
-        print('interstimulus time drift correction:')
-        cm.toc()
-                    
-        cm.tic()
-        image_stim.draw()
-        win.flip()
-        annotation = p.new_annotation(images[im_number].name)
-        p.send_annotation(annotation)
-        outlet.push_sample([markers['event'][im_number].name])
+        if DRIFT_CORRECTION:
+            for frame in range(INTERSTIMULUS_FRAMES-1):
+                drift_point.draw()
+                win.flip()
+            print('interstimulus time drift correction:')
+            cm.toc()
+                        
+            cm.tic()
+            image_stim.draw()
+            win.flip()
+            annotation = p.new_annotation(images[im_number].name)
+            p.send_annotation(annotation)
+            outlet.push_sample([markers['event'][im_number].name])
       
         #Stimulus
         for frame in range(STIMULUS_FRAMES-1):
@@ -275,6 +283,12 @@ def main():
     outlet.push_sample(['EndOfExperiment'])
 
     win.flip()
+
+    cm.tic()
+    print('final_baseline')
+    sleep(FINAL_BASELINE)
+    print(f'final baseline time:')
+    cm.toc()
 
     finish_input='f'
     final_test=True

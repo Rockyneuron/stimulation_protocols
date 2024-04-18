@@ -225,7 +225,17 @@ def main():
         if start_input==user_input:
             cm.tic()
             print('Starting stimulation...\n initial baseline: ')
+            
+            annotation=p.new_annotation('baseline_ini_start')
+            p.send_annotation(annotation)
+            outlet.push_sample(['baseline_ini_start'])
+            
             sleep(INITIAL_BASELINE)
+
+            annotation=p.new_annotation('baseline_ini_end')
+            p.send_annotation(annotation)
+            outlet.push_sample(['baseline_ini_end'])
+
             print(f'baseline_time:')
             cm.toc()
             stim=False
@@ -286,7 +296,16 @@ def main():
 
     cm.tic()
     print('final_baseline')
+    annotation=p.new_annotation('baseline_end_start')
+    p.send_annotation(annotation)
+    outlet.push_sample(['baseline_end_start'])
+
     sleep(FINAL_BASELINE)
+
+    annotation=p.new_annotation('baseline_end_end')
+    p.send_annotation(annotation)
+    outlet.push_sample(['baseline_end_end'])
+
     print(f'final baseline time:')
     cm.toc()
 

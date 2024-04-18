@@ -67,12 +67,13 @@ def main():
     MON_SIZE = [1024, 768]  # Pixel-dimensions of your monitor
     MON_HZ=60.01 #Monitor frame rate in Hz 
     FIX_HEIGHT = 100  # Text height of fixation cross
-    stimulus_duration=6    #in seconds
-    insterstimulus_duration=2
+    stimulus_duration=5    #in seconds
+    insterstimulus_duration=1
     hello_window_duration=10
     goodbye_window_duration=10
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
+    randomize_image=False   # True or false to randomize images in objets folder
 
     # Set up LabStreamingLayer stream.
     info = StreamInfo(name='DataSyncMarker', type='Tags', channel_count=1,
@@ -100,7 +101,7 @@ def main():
 
     # Get list of randomized images.
     images_list=os.listdir(Path('OBJECTS'))   
-    images_list=[im for im in images_list if '.tif' in im] 
+    images_list=[im for im in images_list if '.tif' or '.jpg' in im] 
 
 
     # If we are on a windows sistem remove thumbs.db cache file
@@ -112,7 +113,8 @@ def main():
         images_psedorand=os.listdir(Path('OBJECTS/pseudorandom'))
     except FileNotFoundError:
         print('There is no pseudorandom folder, experiment without surprise')
-        random.shuffle(images_list)
+        if randomize_image:
+            random.shuffle(images_list)
         images=[Path('OBJECTS/' + im) for im in images_list]
     else:
         images_psedorand=[im for im in images_psedorand if '.tif' in im]
@@ -123,8 +125,9 @@ def main():
                 order=line.split(',')
         order_pseudorand=list(map(int,order)) 
 
-        random.shuffle(images_psedorand)
-        random.shuffle(images_list)
+        if randomize_image:
+            random.shuffle(images_psedorand)
+            random.shuffle(images_list)
         
         images=[Path('OBJECTS/' + im) for im in images_list]
         images_psedorand_dir=[Path('OBJECTS/pseudorandom/'+ im) for im in images_psedorand]

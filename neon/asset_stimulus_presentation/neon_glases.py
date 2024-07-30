@@ -1,10 +1,19 @@
-
-
-
 from pupil_labs.realtime_api.simple import Device
 from pupil_labs.realtime_api.simple import discover_one_device
 import sys
+sys.path.append('../../../')
 import time
+import sys
+import os
+import keyboard
+from time import sleep
+from psychopy import core, visual, event
+from pathlib import Path
+import random
+import commons as cm
+import argparse
+import logging
+
 
 def main():
     ip = "192.168.235.50"

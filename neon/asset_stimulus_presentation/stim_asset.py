@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../../')
+sys.path.append('../../../')
 import os
 import keyboard
 from time import sleep
@@ -11,6 +11,9 @@ import argparse
 import logging
 from pyplr.pupil import PupilCore
 from pylsl import StreamInfo, StreamOutlet
+from pupil_labs.realtime_api.simple import Device
+from pupil_labs.realtime_api.simple import discover_one_device
+
 
 def main():
     #Experiment parameters
@@ -26,8 +29,8 @@ def main():
         python stimulation.py --path <full path for the saved images>""",
         add_help=True,
     )
-    parser.add_argument("path")
 
+    parser.add_argument("path")
     args=parser.parse_args()
     target_dir = Path(args.path)
 
@@ -41,9 +44,14 @@ def main():
                       channel_format='string', source_id='12345')
     outlet = StreamOutlet(info)  # Broadcast the stream.
     
-    # Set up Pupil Core
-    cm.check_capture_exists(ip_address='127.0.0.1',port=50020)
-    p = PupilCore()
+    # Set up Neon glases
+    device = discover_one_device()
+
+    print(f"Phone IP address: {device.phone_ip}")
+    print(f"Phone name: {device.phone_name}")
+    print(f"Battery level: {device.battery_level_percent}%")
+    print(f"Free storage: {device.memory_num_free_bytes / 1024**3:.1f} GB")
+    print(f"Serial number of connected glasses: {device.serial_number_glasses}")
 
     # Get list of assets
     assets=[]
@@ -61,13 +69,11 @@ def main():
         'test': ['test_event']
     }
     # Start recording
-    p.command('R')
-  
+    recording_id=device.recording_start()
+    print(f"Started recording with id {recording_id}")
+    
     # Prepare and send annotations
     # Start the annotations plugin
-    p.notify({"subject": "start_plugin", 
-              "name": "Annotation_Capture", 
-              "args": {}})
    
     start_input='start'
     stim=True
@@ -95,13 +101,12 @@ def main():
                 cm.tic()
                 #Send annotations to LSL and pupil core
                 print(f'Recording asset data: {asset}..')
-                annotation = p.new_annotation(asset)
-                p.send_annotation(annotation)
+
+                device.send_event(asset)
                 outlet.push_sample([asset])
                 sleep(stimulus_duration)
 
-                annotation = p.new_annotation('end_of_stimulation')
-                p.send_annotation(annotation)
+                device.send_event('end_of_stimulation')
                 outlet.push_sample(['end_of_stimulation'])
 
                 print('stimulus time:')
@@ -110,7 +115,8 @@ def main():
             else: 
                 print('You have pressed another key. Press control+c to skip program')
     outlet.push_sample(['end_of_experiment'])    
-    
+    device.send_event('end_of_experiment')
+
     finish_input='f'
     final_test=True
     while final_test:
@@ -123,7 +129,7 @@ def main():
         else:
             raise ValueError("You have to input a string")   
     # Stop recording
-    p.command('r')
+    device.recording_stop_and_save()
     
     # Save assets order of appearance
     print('Saving assets order list...')

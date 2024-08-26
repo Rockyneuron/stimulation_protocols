@@ -73,8 +73,8 @@ def main():
     insterstimulus_duration=1
     hello_window_duration=10
     goodbye_window_duration=10
-    INITIAL_BASELINE=180
-    FINAL_BASELINE=180
+    INITIAL_BASELINE=1
+    FINAL_BASELINE=1
     STIMULUS_FRAMES=round(MON_HZ*stimulus_duration)
     INTERSTIMULUS_FRAMES=round(MON_HZ*insterstimulus_duration)
     randomize_image=False   # True or false to randomize images in objets folder
@@ -199,7 +199,7 @@ def main():
         
         cm.tic()
         win.flip()
-        device.send_event(['blank_{}'.format(im_number)])
+        device.send_event('blank_{}'.format(im_number))
         outlet.push_sample(['blank_{}'.format(im_number)])
 
         #Interstimulus
@@ -213,7 +213,7 @@ def main():
             drift_point.draw()
             win.flip()
 
-            device.send_event(['drift_point_{}'.format(im_number)])
+            device.send_event('drift_point_{}'.format(im_number))
             outlet.push_sample(['drift_point_{}'.format(im_number)])
 
         if DRIFT_CORRECTION:

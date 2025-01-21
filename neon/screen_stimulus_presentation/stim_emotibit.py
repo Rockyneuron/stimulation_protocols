@@ -106,7 +106,7 @@ def main():
 
     # Get list of randomized images.
     images_list=os.listdir(Path('OBJECTS'))   
-    images_list=[im for im in images_list if '.tif' or '.jpg' in im] 
+    images_list=[im for im in images_list if im.endswith(('.tif', '.jpg'))]
 
 
     # If we are on a windows sistem remove thumbs.db cache file
@@ -164,7 +164,8 @@ def main():
 
     # Start recording
     recording_id=device.recording_start()
-  
+    print(f"Started recording with id {recording_id}")
+
     # Let everythng settle and say hello
     for frame in range(round(hello_window_duration*MON_HZ)):
         hello_image.draw()

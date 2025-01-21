@@ -106,7 +106,7 @@ def main():
 
     # Get list of randomized images.
     images_list=os.listdir(Path('OBJECTS'))   
-    images_list=[im for im in images_list if im.endswith(('.tif', '.jpg'))]
+    images_list=[im for im in images_list if im.endswith(('.tif', '.jpg', '.png', '.jpeg', '.bmp', '.gif', '.tiff', '.webp'))]
 
 
     # If we are on a windows sistem remove thumbs.db cache file
